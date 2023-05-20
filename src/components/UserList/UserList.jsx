@@ -7,27 +7,9 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [showLoadMoreBtn, setshowLoadMoreBtn] = useState(true);
-  const [filtered, setFiltered] = useState('');
+  const [filtered, setFiltered] = useState('show all');
 
   const isFirstLoading = useRef(true);
-
-  const filterUsers = user => {
-    console.log('user', user);
-    if (filtered === 'follow' && user === 'follow') {
-      return true;
-    }
-    if (filtered === 'following' && user === 'following') {
-      return true;
-    }
-    if (filtered === 'show all') {
-      return true;
-    }
-    return false;
-  };
-
-  const filteredUsers = users.filter(filterUsers);
-  console.log('filterUsers', filterUsers());
-  console.log('filteredUsers', filteredUsers);
 
   const handleBtnPagination = () => {
     setPage(prevPage => {
@@ -74,11 +56,22 @@ const UserList = () => {
     <div className={css.container}>
       <Filter filtered={filtered} setFiltered={setFiltered} />
       <ul className={css.userList}>
-        {users.map(user => (
-          <li key={user.id} className={css.userItem}>
-            <Card user={user} />
-          </li>
-        ))}
+        {users
+          .filter(user => {
+            switch (filtered) {
+              case 'follow':
+                return !user.subscription;
+              case 'following':
+                return user.subscription;
+              default:
+                return true;
+            }
+          })
+          .map(user => (
+            <li key={user.id} className={css.userItem}>
+              <Card user={user} />
+            </li>
+          ))}
       </ul>
       <div>
         {showLoadMoreBtn && (
