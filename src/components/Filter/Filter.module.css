@@ -1,22 +1,9 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding: 20px;
-  justify-content: center;
-  align-items: center;
+  padding-top: 20px;
+  margin-bottom: 50px;
 }
-.userList {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: -5px;
-}
-.userItem {
-  margin: 5px;
-}
-.btn {
-  margin-top: 20px;
+
+.select {
   width: 196px;
   height: 50px;
   background-color: #ebd8ff;
@@ -31,8 +18,4 @@
   line-height: 1.2;
   text-transform: uppercase;
   color: #373737;
-}
-.btn:hover,
-.btn:focus {
-  background-color: #5cd3a8;
 }

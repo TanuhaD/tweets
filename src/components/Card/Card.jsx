@@ -7,8 +7,9 @@ import Button from '../Button/Button';
 import Followers from '../Followers/Followers';
 
 import { Link } from 'react-router-dom';
+import UserName from '../UserName/UserName';
 
-const Card = ({ user }) => {
+const Card = ({ user, length }) => {
   const [subscription, setSubscription] = useState(user.subscription);
 
   const changeSubscriptionStatus = () => {
@@ -36,7 +37,12 @@ const Card = ({ user }) => {
       <Logo className={css.logo} />
       <img src={picture} alt="" className={css.picture} />
       <Avatar avatar={user.avatar} />
-      <Link to="/tweets" className={css.link}>
+      <UserName user={user.user} />
+      <Link
+        to="/tweets"
+        state={{ tweets: user.tweets, user: user.user, length }}
+        className={css.link}
+      >
         {user.tweets} Tweets
       </Link>
       <Followers followersCount={user.followers + subscription ? 1 : 0} />

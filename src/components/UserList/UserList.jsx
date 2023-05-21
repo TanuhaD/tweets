@@ -3,7 +3,7 @@ import { getUsers } from '../../utils/userAPI/userAPI';
 import Card from '../Card/Card';
 import css from './UserList.module.css';
 import Filter from '../Filter/Filter';
-const UserList = () => {
+const UserList = ({ length }) => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [showLoadMoreBtn, setshowLoadMoreBtn] = useState(true);
@@ -29,13 +29,13 @@ const UserList = () => {
   useEffect(() => {
     if (isFirstLoading.current) {
       isFirstLoading.current = false;
-      getUsers()
+      getUsers({ limit: length })
         .then(data => {
           setUsers(getUsersWithSubscription(data));
         })
         .catch(() => {});
     }
-  }, []);
+  }, [length]);
 
   useEffect(() => {
     if (!isFirstLoading.current && page > 1) {
@@ -52,6 +52,7 @@ const UserList = () => {
         .catch(() => {});
     }
   }, [page]);
+
   return (
     <div className={css.container}>
       <Filter filtered={filtered} setFiltered={setFiltered} />
@@ -69,13 +70,15 @@ const UserList = () => {
           })
           .map(user => (
             <li key={user.id} className={css.userItem}>
-              <Card user={user} />
+              <Card user={user} length={users.length} />
             </li>
           ))}
       </ul>
       <div>
         {showLoadMoreBtn && (
-          <button onClick={handleBtnPagination}>Load more</button>
+          <button onClick={handleBtnPagination} className={css.btn}>
+            Load more
+          </button>
         )}
       </div>
     </div>
